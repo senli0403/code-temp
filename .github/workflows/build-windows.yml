@@ -1,0 +1,32 @@
+name: Build Windows exe
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/nasdaq-kline-chart-analyzer-l9a7hb]
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q tests
+      - name: Build exe
+        shell: cmd
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed --name NQ-KLine
+          --add-data "nqkline\static;nqkline\static"
+          --collect-submodules webview --collect-all databento --collect-submodules anthropic
+          --hidden-import uvicorn.logging --hidden-import uvicorn.loops.auto
+          --hidden-import uvicorn.protocols.http.auto --hidden-import uvicorn.protocols.websockets.auto
+          --hidden-import uvicorn.lifespan.on run.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NQ-KLine-windows
+          path: dist/NQ-KLine.exe

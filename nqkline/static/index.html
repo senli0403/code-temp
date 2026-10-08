@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NQ K線分析</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header id="toolbar">
+  <label>開始 <input type="date" id="start"></label>
+  <label>結束 <input type="date" id="end"></label>
+  <label>週期
+    <select id="interval">
+      <option value="5">5分K</option>
+      <option value="10">10分K</option>
+      <option value="15">15分K</option>
+      <option value="30">30分K</option>
+    </select>
+  </label>
+  <span class="ma-group" title="主圖均線(SMA)">
+    <label class="ck ma10"><input type="checkbox" value="10" checked>MA10</label>
+    <label class="ck ma60"><input type="checkbox" value="60" checked>MA60</label>
+    <label class="ck ma72"><input type="checkbox" value="72">MA72</label>
+    <label class="ck ma100"><input type="checkbox" value="100">MA100</label>
+  </span>
+  <button id="btn-load" class="primary">查詢</button>
+  <button id="btn-cost">預估費用</button>
+  <label class="ck demo" title="不連線 Databento,用隨機資料試用介面"><input type="checkbox" id="demo">示範資料</label>
+  <span id="status"></span>
+  <span class="spacer"></span>
+  <button id="btn-notes">AI 筆記</button>
+  <button id="btn-settings">設定</button>
+</header>
+
+<main>
+  <section id="chart-wrap">
+    <div id="legend"></div>
+    <div id="chart"></div>
+  </section>
+
+  <section id="bottom">
+    <div id="input-pane">
+      <textarea id="msg" placeholder="和 AI 討論這張圖…&#10;例如:幫我看目前畫面的紅K綠K走勢&#10;或教它:「記住:收盤站上 MA60 且連 3 根紅K視為轉強」&#10;(Ctrl+Enter 送出)"></textarea>
+      <div class="row">
+        <button id="btn-send" class="primary">送出</button>
+        <button id="btn-clear">清除對話</button>
+      </div>
+    </div>
+    <div id="chat-pane"><div id="chat"></div></div>
+  </section>
+</main>
+
+<div id="modal" class="hidden"><div class="card" id="modal-card"></div></div>
+
+<script src="/static/vendor/lightweight-charts.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
